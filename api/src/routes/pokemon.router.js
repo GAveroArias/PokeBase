@@ -1,91 +1,66 @@
 const { Router } = require("express");
 const pokemonRouter = Router();
-const { Pokemon } = require("../db.js");
-const { v4: uuidv4 } = require("uuid");
+const { Pokemon, Type } = require("../db.js");
+const { Op } = require("sequelize");
+const {
+  getAllPokemonsService,
+  getPokemonByIdService,
+  getPokemonByNameService,
+} = require("../services/pokemon.service.js");
 
 pokemonRouter.get("/", async (req, res) => {
-    const allPokemons = await Pokemon.findAll({});
+  try {
+    const allPokemons = await getAllPokemonsService();
+
     res.json(allPokemons);
+  } catch (error) {
+    console.log(error);
+    return res.status(500).json({ error: "Error al obtener los pokemons" });
+  }
 });
 
-async function getPokemonDetails(id) {
-    try {
-        const pokemonFromDB = await Pokemon.findByPk(id); // Intento buscar el Pokemon en la base de datos
-
-        if (pokemonFromDB) {
-            // Si el Pokemon se encuentra en la base de datos, obtener detalles del tipo
-            const typeDetails = await Type.findById(pokemonFromDB.typeId); // Suponiendo que existe un modelo Type con un método findById
-            return {
-                ...pokemonFromDB.toJSON(),
-                type: typeDetails, // Agregar detalles del tipo al objeto del Pokemon
-            };
-        } else {
-            // Si el Pokemon no se encuentra en la base de datos, que llame a la API para obtener detalles
-            const response = await fetch(
-                `https://pokeapi.co/api/v2/pokemon/${id}`
-            );
-            if (!response.ok) {
-                throw new Error("Respuesta no válida desde la API");
-            }
-            const pokemonData = await response.json();
-            return pokemonData;
-        }
-    } catch (error) {
-        console.error("Error al obtener detalles del Pokemon:", error);
-        throw error;
-    }
-}
-
-pokemonRouter.get("/:id", async (req, res) => {
+pokemonRouter.get(":id", async (req, res) => {
+  try {
     const { id } = req.params;
+    const pokemon = await getPokemonByIdService(id);
 
-    try {
-        const pokemon = await getPokemonDetails(id);
-        if (!pokemon) {
-            res.send("Pokemon no encontrado");
-        } else {
-            res.json(pokemon);
-        }
-    } catch (error) {
-        res.status(500).send("Error interno del servidor");
-    }
+    res.send(pokemon);
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "No se encontro el Pokemon" });
+  }
 });
 
-//console.log(getPokemonDetails(1));
-
-pokemonRouter.get("/name", (req, res) => {
+pokemonRouter.get("/name", async (req, res) => {
+  try {
     const { name } = req.query;
-    res.send(`Pokemon ${name}`);
+
+    if (!name) {
+      res
+        .status(400)
+        .send("Envie el nombre de un pokemon usando el parametro ?name=");
+    } else {
+      const transformedName = name.toLowerCase();
+      const pokemon = await getPokemonByNameService(transformedName);
+
+      res.json(pokemon);
+    }
+  } catch (error) {
+    console.log(error);
+    res.status(404).json({ message: "No se encontro el Pokemon" });
+  }
 });
 
 pokemonRouter.post("/", async (req, res) => {
-    //obtener datos del pokemon por body
-    //generar UUID opcional y agregarlo al objeto
-    //guardar pokemon en DB
-    const { name, image, health, attack, defense, speed, height, weight } =
-        req.body;
+  try {
+    const pokemon = req.body;
+    await createPokemonService(pokemon);
 
-    const UUID = uuidv4();
-
-    const pokemon = {
-        UUID,
-        name,
-        image,
-        health,
-        attack,
-        defense,
-        speed,
-        height,
-        weight,
-    };
-    try {
-        console.log(pokemon);
-        await Pokemon.create(pokemon);
-        res.send("Pokemon creado");
-    } catch (error) {
-        console.log(error);
-        res.status(500).json({ message: error.message });
-    }
+    res.send("Pokemon creado exitosamente");
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ message: "No se pudo crear el Pokemon" });
+  }
 });
 
 module.exports = pokemonRouter;
