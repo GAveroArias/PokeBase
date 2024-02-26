@@ -1,21 +1,19 @@
 import React from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import LandingPage from "/src/components/pages/LandingPage.jsx";
-import HomePage from "/src/components/pages/HomePage.jsx";
-import DetailPage from "/src/components/pages/DetailPage.jsx";
-import FormPage from "/src/components/pages/FormPage.jsx";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+// import HomePage from "/src/components/pages/HomePage.jsx";
+// import DetailPage from "/src/components/pages/DetailPage.jsx";
+// import FormPage from "/src/components/pages/FormPage.jsx";
+import LandingPage from "./components/pages/LandingPage.jsx";
 
 const App = () => {
-    return (
-        <Router>
-            <Switch>
-                <Route exact path="/" component={LandingPage} />
-                <Route exact path="/home" component={HomePage} />
-                <Route exact path="/pokemon/:id" component={DetailPage} />
-                <Route exact path="/form" component={FormPage} />
-            </Switch>
-        </Router>
-    );
+  return (
+    <Routes>
+      <Route exact path="/" element={<LandingPage />} />
+      {/* <Route exact path="/home" element={<HomePage />} />
+      <Route exact path="/pokemon/:id" element={<DetailPage />} />
+      <Route exact path="/form" element={<FormPage />} /> */}
+    </Routes>
+  );
 };
 
 export default App;
