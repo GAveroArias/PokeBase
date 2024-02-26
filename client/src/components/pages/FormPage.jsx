@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { createPokemon } from "./redux/actions/pokemonActions.js";
+import { createPokemon } from "../../redux/actions/pokemonActions";
 
 const FormPage = () => {
     const dispatch = useDispatch();

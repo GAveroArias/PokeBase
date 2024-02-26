@@ -4,7 +4,6 @@ import {
     GET_POKEMONS_REQUEST,
 } from "../actionTypes/pokemonActionTypes";
 
-// Reducer para manejar el estado de los pokemones
 const initialState = {
     pokemons: [],
     loading: false,

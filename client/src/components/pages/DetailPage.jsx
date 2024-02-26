@@ -18,7 +18,10 @@ const DetailPage = () => {
             <p>Vida: {pokemon.vida}</p>
             <p>Ataque: {pokemon.ataque}</p>
             <p>Defensa: {pokemon.defensa}</p>
-            {/* Agrega más detalles aquí si es necesario */}
+            <p>Plataforma: {pokemon.plataforma}</p>
+            <p>Altura: {pokemon.altura}</p>
+            <p>Peso: {pokemon.peso}</p>
+            <p>Tipos: {pokemon.types.join(", ")}</p>
         </div>
     );
 };

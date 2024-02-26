@@ -10,12 +10,13 @@ import {
     SEARCH_POKEMON,
     SEARCH_POKEMON_FAILURE,
     SEARCH_POKEMON_SUCCESS,
-    GET_POKEMONS,
+    GET_POKEMONS_REQUEST,
 } from "../actionTypes/pokemonActionTypes";
 import axios from "axios";
 
 export const getPokemons = () => {
     return async (dispatch) => {
+        dispatch({ type: GET_POKEMONS_REQUEST });
         try {
             let pokemons;
             if (shouldGetFromAPI()) {
@@ -23,9 +24,9 @@ export const getPokemons = () => {
             } else {
                 pokemons = await fetchPokemonsFromDatabase();
             }
-            dispatch({ type: "GET_POKEMONS_SUCCESS", payload: pokemons });
+            dispatch({ type: GET_POKEMONS_SUCCESS, payload: pokemons });
         } catch (error) {
-            dispatch({ type: "GET_POKEMONS_FAILURE", payload: error.message });
+            dispatch({ type: GET_POKEMONS_FAILURE, payload: error.message });
         }
     };
 };
@@ -66,13 +67,16 @@ const fetchPokemonsFromDatabase = async () => {
 
 export const getPokemonById = (id) => {
     return async (dispatch) => {
+        dispatch({ type: GET_POKEMON_BY_ID });
         try {
-            const response = await axios.get(`/api/pokemons/${id}`);
+            const response = await axios.get(
+                "https://pokeapi.co/api/v2/pokemon/{id}"
+            );
             const data = await response.json();
-            dispatch({ type: "GET_POKEMON_BY_ID_SUCCESS", payload: data });
+            dispatch({ type: GET_POKEMON_BY_ID_SUCCESS, payload: data });
         } catch (error) {
             dispatch({
-                type: "GET_POKEMON_BY_ID_FAILURE",
+                type: GET_POKEMON_BY_ID_FAILURE,
                 payload: error.message,
             });
         }
@@ -103,7 +107,9 @@ export const createPokemon = (pokemon) => {
 export const searchPokemon = (name) => {
     return async (dispatch) => {
         try {
-            const response = await axios.get(`/api/pokemons?name=${name}`);
+            const response = await axios.get(
+                "https://pokeapi.co/api/v2/pokemon/{name}"
+            );
             const data = await response.json();
             dispatch({ type: "SEARCH_POKEMON_SUCCESS", payload: data });
         } catch (error) {
