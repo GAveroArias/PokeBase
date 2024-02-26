@@ -2,6 +2,7 @@ import {
     GET_POKEMONS_FAILURE,
     GET_POKEMONS_SUCCESS,
     GET_POKEMONS_REQUEST,
+    SET_POKEMONS,
 } from "../actionTypes/pokemonActionTypes";
 
 const initialState = {
@@ -29,6 +30,11 @@ const pokemonReducer = (state = initialState, action) => {
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+        case SET_POKEMONS:
+            return {
+                ...state,
+                pokemons: action.payload,
             };
         default:
             return state;
