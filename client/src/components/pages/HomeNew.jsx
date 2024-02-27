@@ -6,26 +6,15 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { setPokemons } from "../../redux/actions/pokemonActions";
+import { getPokemons } from "../../redux/actions/pokemonActions";
 import PokemonCard from "../pokemonCard/PokemonCard";
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const [pokemons, setPokemons] = useState([]);
+    const [pokemons, getPokemons] = useState([]);
 
     useEffect(() => {
-        const fetchPokemons = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:3001/pokemons"
-                );
-                dispatch(setPokemons(response.data));
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchPokemons();
+        dispatch(getPokemons());
     }, [dispatch]);
 
     const [currentPage, setCurrentPage] = useState(1);

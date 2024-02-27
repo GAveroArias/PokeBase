@@ -1,8 +1,8 @@
 import {
-    GET_POKEMONS_FAILURE,
-    GET_POKEMONS_SUCCESS,
-    GET_POKEMONS_REQUEST,
-    SET_POKEMONS,
+    GET_POKEMONS,
+    GET_POKEMON_BY_ID,
+    CREATE_POKEMON,
+    SEARCH_POKEMON,
 } from "../actionTypes/pokemonActionTypes";
 
 const initialState = {
@@ -11,31 +11,38 @@ const initialState = {
     error: null,
 };
 
-const pokemonReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case GET_POKEMONS_REQUEST:
-            return {
-                ...state,
-                loading: true,
-            };
-        case GET_POKEMONS_SUCCESS:
+const pokemonReducer = (state = initialState, { type, payload }) => {
+    switch (type) {
+        case GET_POKEMONS:
             return {
                 ...state,
                 pokemons: action.payload,
                 loading: false,
                 error: null,
             };
-        case GET_POKEMONS_FAILURE:
-            return {
-                ...state,
-                loading: false,
-                error: action.payload,
-            };
-        case SET_POKEMONS:
+        case GET_POKEMON_BY_ID:
             return {
                 ...state,
                 pokemons: action.payload,
+                loading: false,
+                error: null,
             };
+        case CREATE_POKEMON:
+            return {
+                ...state,
+                pokemons: action.payload,
+                loading: false,
+                error: null,
+            };
+        case SEARCH_POKEMON:
+            return {
+                ...state,
+                pokemons: action.payload,
+                loading: false,
+                error: null,
+            };
+        case "ERROR":
+            return { ...state, errors: payload };
         default:
             return state;
     }

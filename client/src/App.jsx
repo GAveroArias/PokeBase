@@ -18,5 +18,3 @@ const App = () => {
 };
 
 export default App;
-
-//  PI-Pokemon-main\client\src\components\pages\LandingPage.jsx
