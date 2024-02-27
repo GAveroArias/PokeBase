@@ -5,7 +5,7 @@ import {
 } from "../actionTypes/pokemonActionTypes";
 
 const initialState = {
-  pokemons: [],
+  allPokemons: [],
   loading: false,
   error: null,
 };
@@ -19,7 +19,7 @@ const pokemonReducer = (state = initialState, { type, payload }) => {
     case GET_POKEMONS_SUCCESS: {
       console.log("GET_POKEMONS_SUCCESS", state);
 
-      return { ...state, pokemons: payload, loading: false };
+      return { ...state, allPokemons: payload, loading: false };
     }
     case GET_POKEMONS_ERROR:
       return { ...state, error: payload, loading: false };
