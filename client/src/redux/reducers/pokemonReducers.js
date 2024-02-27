@@ -1,43 +1,31 @@
 import {
-    GET_POKEMON_BY_ID,
-    CREATE_POKEMON,
-    SEARCH_POKEMON,
+  GET_POKEMONS_REQUEST,
+  GET_POKEMONS_SUCCESS,
+  GET_POKEMONS_ERROR,
 } from "../actionTypes/pokemonActionTypes";
 
 const initialState = {
-    pokemons: [],
-    loading: false,
-    error: null,
+  pokemons: [],
+  loading: false,
+  error: null,
 };
 
 const pokemonReducer = (state = initialState, { type, payload }) => {
-    switch (type) {
-        case GET_POKEMON_BY_ID:
-            return {
-                ...state,
-                pokemons: action.payload,
-                loading: false,
-                error: null,
-            };
-        case CREATE_POKEMON:
-            return {
-                ...state,
-                pokemons: action.payload,
-                loading: false,
-                error: null,
-            };
-        case SEARCH_POKEMON:
-            return {
-                ...state,
-                pokemons: action.payload,
-                loading: false,
-                error: null,
-            };
-        case "ERROR":
-            return { ...state, errors: payload };
-        default:
-            return state;
+  switch (type) {
+    case GET_POKEMONS_REQUEST: {
+      console.log("GET_POKEMONS_REQUEST");
+      return { ...state, loading: true };
     }
+    case GET_POKEMONS_SUCCESS: {
+      console.log("GET_POKEMONS_SUCCESS", state);
+
+      return { ...state, pokemons: payload, loading: false };
+    }
+    case GET_POKEMONS_ERROR:
+      return { ...state, error: payload, loading: false };
+    default:
+      return state;
+  }
 };
 
 export default pokemonReducer;
