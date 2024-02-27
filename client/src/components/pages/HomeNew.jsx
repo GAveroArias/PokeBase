@@ -14,7 +14,18 @@ const HomePage = () => {
     const [pokemons, getPokemons] = useState([]);
 
     useEffect(() => {
-        dispatch(getPokemons());
+        const fetchPokemons = async () => {
+            try {
+                const response = await axios.get(
+                    "http://localhost:3001/pokemons"
+                );
+                dispatch(getPokemons(response.data));
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        fetchPokemons();
     }, [dispatch]);
 
     const [currentPage, setCurrentPage] = useState(1);
