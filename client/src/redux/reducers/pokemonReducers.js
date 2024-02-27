@@ -1,5 +1,4 @@
 import {
-    GET_POKEMONS,
     GET_POKEMON_BY_ID,
     CREATE_POKEMON,
     SEARCH_POKEMON,
@@ -13,13 +12,6 @@ const initialState = {
 
 const pokemonReducer = (state = initialState, { type, payload }) => {
     switch (type) {
-        case GET_POKEMONS:
-            return {
-                ...state,
-                pokemons: action.payload,
-                loading: false,
-                error: null,
-            };
         case GET_POKEMON_BY_ID:
             return {
                 ...state,

@@ -11,21 +11,23 @@ import PokemonCard from "../pokemonCard/PokemonCard";
 
 const HomePage = () => {
     const dispatch = useDispatch();
-    const [pokemons, getPokemons] = useState([]);
+    const [pokemons, setPokemons] = useState([]);
+
+    const getPokemons = async () => {
+        try {
+            const response = await axios.get("http://localhost:3001/pokemons");
+            if (response.data) {
+                setPokemons(response.data);
+            } else {
+                window.alert("No hay pokemons");
+            }
+        } catch (error) {
+            alert(error.message);
+        }
+    };
 
     useEffect(() => {
-        const fetchPokemons = async () => {
-            try {
-                const response = await axios.get(
-                    "http://localhost:3001/pokemons"
-                );
-                dispatch(getPokemons(response.data));
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        fetchPokemons();
+        dispatch(setPokemons());
     }, [dispatch]);
 
     const [currentPage, setCurrentPage] = useState(1);

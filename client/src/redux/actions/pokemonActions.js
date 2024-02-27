@@ -1,5 +1,4 @@
 import {
-    GET_POKEMONS,
     GET_POKEMON_BY_ID,
     CREATE_POKEMON,
     SEARCH_POKEMON,
@@ -11,23 +10,6 @@ const initialState = {
     loading: false,
     errors: "",
 };
-
-export const getPokemons = () => {
-    return async (dispatch) => {
-        try {
-            const response = await axios.get("/api/pokemons");
-            dispatch({ type: "GET_POKEMONS", payload: pokemons });
-            const data = await response.data;
-        } catch (error) {
-            alert(error.message);
-            return dispatch({
-                type: "ERROR",
-                payload: error.message,
-            });
-        }
-    };
-};
-
 export const getPokemonById = (id) => {
     return async (dispatch) => {
         try {
