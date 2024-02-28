@@ -6,6 +6,7 @@ const {
   getAllPokemonsService,
   getPokemonByIdService,
   getPokemonByNameService,
+  createPokemonService,
 } = require("../services/pokemon.service.js");
 
 pokemonRouter.get("/", async (req, res) => {

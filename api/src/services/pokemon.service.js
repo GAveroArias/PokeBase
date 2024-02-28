@@ -78,10 +78,9 @@ const getPokemonByNameService = async (name) => {
 
 const createPokemonService = async (pokemon) => {
   try {
-    const { types } = pokemon.types;
+    const { types } = pokemon;
 
     const newPokemon = await createPokemonRepository(pokemon);
-
     if (types && types.length) {
       const dbTypes = await getTypesByIdRepository(types);
 

@@ -1,4 +1,5 @@
 const { Type } = require("../db");
+const { Op } = require("sequelize");
 
 const getAllTypesRepository = async () => {
   try {

@@ -55,7 +55,7 @@ const getPokemonByNameRepository = async (name) => {
 
 const createPokemonRepository = async (pokemon) => {
   try {
-    await Pokemon.create(pokemon);
+    return await Pokemon.create(pokemon);
   } catch (error) {
     console.log(error);
     throw error;
